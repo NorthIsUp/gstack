@@ -11,7 +11,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"$HOME/.claude/skills/gstack/bin/gstack-plugin-install\""
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/bin/gstack-plugin-install\""
           }
         ]
       }
