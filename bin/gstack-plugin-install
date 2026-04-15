@@ -5,6 +5,7 @@
 # sessions and resumes. Must be fast, silent, and non-fatal.
 #
 # Environment variables:
+#   GSTACK_REPO_URL    — override clone URL (default: https://github.com/garrytan/gstack.git)
 #   GSTACK_NO_TEAM=1   — skip --team flag (disables auto_upgrade)
 #   GSTACK_DIR         — override install path (default: ~/.claude/skills/gstack)
 #
@@ -13,11 +14,11 @@
 set +e
 
 GSTACK_DIR="${GSTACK_DIR:-$HOME/.claude/skills/gstack}"
-REPO_URL="https://github.com/garrytan/gstack.git"
+GSTACK_REPO_URL="${GSTACK_REPO_URL:-https://github.com/garrytan/gstack.git}"
 
 if [ ! -d "$GSTACK_DIR/.git" ]; then
   # Fresh install — clone and run setup
-  git clone --depth 1 --single-branch "$REPO_URL" "$GSTACK_DIR" 2>/dev/null || exit 0
+  git clone --depth 1 --single-branch "$GSTACK_REPO_URL" "$GSTACK_DIR" 2>/dev/null || exit 0
 
   if [ "${GSTACK_NO_TEAM:-}" = "1" ]; then
     ( cd "$GSTACK_DIR" && ./setup -q ) >/dev/null 2>&1
