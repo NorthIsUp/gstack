@@ -1,21 +1,23 @@
 #!/usr/bin/env bash
-# install-gstack.sh — idempotent gstack install + auto-update for Claude Code web
+# gstack-plugin-install — install or update gstack on session start
 #
-# Runs on every SessionStart (fires on both new sessions and resumes).
-# Always exits 0 so it never blocks a session.
+# Called by the gstack plugin's SessionStart hook. Fires on both new
+# sessions and resumes. Must be fast, silent, and non-fatal.
 #
 # Environment variables:
 #   GSTACK_NO_TEAM=1   — skip --team flag (disables auto_upgrade)
 #   GSTACK_DIR         — override install path (default: ~/.claude/skills/gstack)
+#
+# Exit 0 always — never block a Claude Code session.
 
 set +e
 
 GSTACK_DIR="${GSTACK_DIR:-$HOME/.claude/skills/gstack}"
-GSTACK_REPO="https://github.com/garrytan/gstack.git"
+REPO_URL="https://github.com/garrytan/gstack.git"
 
 if [ ! -d "$GSTACK_DIR/.git" ]; then
   # Fresh install — clone and run setup
-  git clone --depth 1 --single-branch "$GSTACK_REPO" "$GSTACK_DIR" 2>/dev/null || exit 0
+  git clone --depth 1 --single-branch "$REPO_URL" "$GSTACK_DIR" 2>/dev/null || exit 0
 
   if [ "${GSTACK_NO_TEAM:-}" = "1" ]; then
     ( cd "$GSTACK_DIR" && ./setup -q ) >/dev/null 2>&1
@@ -23,7 +25,7 @@ if [ ! -d "$GSTACK_DIR/.git" ]; then
     ( cd "$GSTACK_DIR" && ./setup --team -q ) >/dev/null 2>&1
   fi
 else
-  # Already installed — delegate to auto-update script (throttled, respects auto_upgrade)
+  # Already installed — delegate to auto-update script (respects auto_upgrade config)
   "$GSTACK_DIR/bin/gstack-session-update"
 fi
 

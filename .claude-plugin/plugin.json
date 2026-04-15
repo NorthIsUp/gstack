@@ -1,0 +1,20 @@
+{
+  "name": "gstack",
+  "displayName": "gstack",
+  "description": "AI workflow skills for Claude Code: /ship, /qa, /review, /investigate, /browse, and 30+ more. Headless browser, PR review, QA testing, release workflows, and security audits.",
+  "version": "0.17.0.0",
+  "author": "garrytan",
+  "repository": "https://github.com/garrytan/gstack",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/skills/gstack/bin/gstack-plugin-install\""
+          }
+        ]
+      }
+    ]
+  }
+}
