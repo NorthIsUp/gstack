@@ -11,7 +11,7 @@
 set +e
 
 GSTACK_DIR="${GSTACK_DIR:-$HOME/.claude/skills/gstack}"
-GSTACK_REPO_URL="${GSTACK_REPO_URL:-https://github.com/NorthIsUp/gstack.git}"
+GSTACK_REPO_URL="${GSTACK_REPO_URL:-https://github.com/garrytan/gstack.git}"
 
 if [ ! -d "$GSTACK_DIR/.git" ]; then
   # Fresh install — clone and run setup
